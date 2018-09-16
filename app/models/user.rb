@@ -8,7 +8,8 @@ class User < ApplicationRecord
         self.mentor_relation.each do |mr|
            @mentors_data << {
               username: User.find(mr.user_id1).username,
-              status: mr.status
+              status: mr.status,
+              relationship: "mentor"
            }
         end
         return @mentors_data
@@ -20,10 +21,19 @@ class User < ApplicationRecord
         self.student_relation.each do |sr|
             @students_data << {
                 username: User.find(sr.user_id2).username,
-                status: sr.status
+                status: sr.status,
+                relationship: "student"
             }
         end
         return @students_data
+    end
+
+    def relationships
+        return @relationships if @relationships
+        @relationships ||= []
+        self.mentors.each  {|m| @relationships << m }
+        self.students.each {|s| @relationships << s }
+        return @relationships
     end
 end
 
