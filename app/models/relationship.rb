@@ -1,10 +1,11 @@
 class Relationship < ApplicationRecord
-     validates :user_id2, uniqueness: true
-     validates :user_id1, uniqueness: true
 
      validate :ensure_unique_relationship, on: :create
 
      def ensure_unique_relationship
-         !Relationship.where(user_id1: self.user_id2, user_id2: self.user_id1).exists?
+        if (Relationship.where(user_id1: self.user_id2, user_id2: self.user_id1).exists? ||
+         Relationship.where(user_id1: self.user_id1, user_id2: self.user_id2).exists?)
+            errors.add(:relationships, "should be unique")
+        end
      end
 end
