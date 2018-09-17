@@ -47,8 +47,10 @@ class UserController < ApplicationController
     # params: mentor_name, current_user
     def create
         
-        if params[:mentor_name].nil? || params[:current_user].nil?
-            render json: {status: "failure", reason: "mentor_name or current_user is nil"} and return
+        if params[:mentor_name].nil?
+            render json: {status: "failure", reason: "mentor_name is nil"} and return
+        elsif params[:current_user].nil?
+            render json: {status: "failure", reason: "current_user is nil"} and return
         end
 
         create_relationship = Relationship.new(user_id1: mentor.id, user_id2: current_user.id, status: "pending")
