@@ -9,7 +9,7 @@ class UserController < ApplicationController
             usernames.each {|u| data[u.username] = u.mentors} 
             render json: data and return
         elsif current_user
-            render json: current_user.mentors and return
+            render json: {status: "success", response: current_user.mentors} and return
         else
             render json: {status: "failure", reason: "no data provided"}
         end
@@ -23,7 +23,7 @@ class UserController < ApplicationController
             usernames.each {|u| data[u.username] = u.students}
             render json: data and return
         elsif current_user
-            render json: current_user.students and return
+            render json: {status: "success", response: current_user.students} and return
         else
             render json: {status: "failure", reason: "no data provided"}
         end
@@ -37,7 +37,7 @@ class UserController < ApplicationController
             usernames.each {|u| data[u.username] = u.relationships} 
             render json: data and return
         elsif current_user
-            render json: current_user.relationships and return
+            render json: {status: "success", response: current_user.relationships} and return
         else
             render json: {status: "failure", reason: "no data provided"}
         end
