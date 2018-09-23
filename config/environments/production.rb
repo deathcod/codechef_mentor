@@ -22,6 +22,7 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
 
+  config.serve_static_assets = true
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
@@ -91,4 +92,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_cable.url = 'ws://149.129.138.172/cable'
+  #config.action_cable.allowed_request_origins = [ 'http://149.129.138.172', 'http://127.0.0.1:3000' ]
+  #config.action_cable.disable_request_forgery_protection = true
 end
