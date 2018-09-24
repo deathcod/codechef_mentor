@@ -1,0 +1,13 @@
+Insert your username and start chatting
+
+<%= form_tag("/users/authenticate", method: "post") do %>
+
+  <div class="field">
+    <%= label_tag :current_user %>
+    <%= text_field_tag :current_user %>
+  </div>
+
+  <div class="actions">
+    <%= submit_tag("Submit") %>
+  </div>
+<% end %>

@@ -1,8 +1,20 @@
 class UserController < ApplicationController
     protect_from_forgery with: :null_session
+
+    #/users/authenticate POST params: current_user
+    def authenticate
+        if params[:current_user].nil? || params[:current_user].blank?
+            render json: {status: StatusCode::FAILURE, reason: "no user provided"} and return
+        end
+        cookies.signed[:current_user] = params[:current_user]
+        render json: {status: StatusCode::SUCCESS}
+    end
+
+    def index
+    end
     
     #/mentors?usernames=AAA|BBB|CCC
-    #/mentors?current_user=USERNAME
+    #/mentors?current_user=USERNAME  [TODO: deprecate]
     def mentors
         if usernames
             data = {}
@@ -11,12 +23,12 @@ class UserController < ApplicationController
         elsif current_user
             render json: {status: "success", response: current_user.mentors} and return
         else
-            render json: {status: "failure", reason: "no data provided"}
+            render json: {status: StatusCode::FAILURE, reason: "no data provided"}
         end
     end
 
     #/students?usernames=AAA|BBB|CCC
-    #/students?current_user=USERNAME
+    #/students?current_user=USERNAME  [TODO: deprecate]
     def students
         if usernames
             data = {}
@@ -25,12 +37,12 @@ class UserController < ApplicationController
         elsif current_user
             render json: {status: "success", response: current_user.students} and return
         else
-            render json: {status: "failure", reason: "no data provided"}
+            render json: {status: StatusCode::FAILURE, reason: "no data provided"}
         end
     end
 
     #/users?usernames=AAA|BBB|CCC
-    #/users?current_user=USERNAME
+    #/users?current_user=USERNAME  [TODO: deprecate]
     def users
         if usernames
             data = {}
@@ -39,7 +51,7 @@ class UserController < ApplicationController
         elsif current_user
             render json: {status: "success", response: current_user.relationships} and return
         else
-            render json: {status: "failure", reason: "no data provided"}
+            render json: {status: StatusCode::FAILURE, reason: "no data provided"}
         end
     end
 
@@ -48,17 +60,17 @@ class UserController < ApplicationController
     def create
         
         if params[:mentor_name].nil?
-            render json: {status: "failure", reason: "mentor_name is nil"} and return
+            render json: {status: StatusCode::FAILURE, reason: "mentor_name is nil"} and return
         elsif params[:current_user].nil?
-            render json: {status: "failure", reason: "current_user is nil"} and return
+            render json: {status: StatusCode::FAILURE, reason: "current_user is nil"} and return
         end
 
         create_relationship = Relationship.new(user_id1: mentor.id, user_id2: current_user.id, status: "pending")
         if create_relationship.valid?
             create_relationship.save
-            render json: {status: "success"} and return
+            render json: {status: StatusCode::SUCCESS} and return
         else
-            render json: {status: "failure", reason: create_relationship.errors.full_messages.first} and return
+            render json: {status: StatusCode::FAILURE, reason: create_relationship.errors.full_messages.first} and return
         end
     end
 
@@ -66,19 +78,19 @@ class UserController < ApplicationController
     # params: student_name, status, current_user
     def update
        if current_user.nil?
-            render json: {status: "failure", reason: "current_user is nil"} and return
+            render json: {status: StatusCode::FAILURE, reason: "current_user is nil"} and return
        elsif student.nil?
-            render json: {status: "failure", reason: "student is nil"} and return
+            render json: {status: StatusCode::FAILURE, reason: "student is nil"} and return
        elsif params[:status].nil?
-            render json: {status: "failure", reason: "status is nil"} and return
+            render json: {status: StatusCode::FAILURE, reason: "status is nil"} and return
        end
 
        relationship = Relationship.where(user_id1: current_user.id, user_id2: student.id).first
        if relationship.present?
            relationship.update_attributes!(status: params[:status])
-           render json: {status: "success"} and return
+           render json: {status: StatusCode::SUCCESS} and return
        else
-           render json: {status: "failure", reason: create_relationship.errors.full_messages.first} and return
+           render json: {status: StatusCode::FAILURE, reason: create_relationship.errors.full_messages.first} and return
        end
     end
 
@@ -101,15 +113,5 @@ class UserController < ApplicationController
 
     def student
         @student ||= User.find_or_create_by(username: params[:student_name])
-    end
-
-    def current_user
-        return @current_user if @current_user
-        if params[:current_user]
-            @current_user = User.find_or_create_by(username: params[:current_user])
-        elsif params[:id]
-            @current_user = User.find_or_create_by(username: params[:id])
-        end
-        return @current_user
     end
 end

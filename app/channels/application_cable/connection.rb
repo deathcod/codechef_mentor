@@ -4,7 +4,7 @@ module ApplicationCable
 
     # add validations later
     def connect
-      self.current_user = User.last
+      self.current_user = User.find_by_username(cookies.signed[:current_user])
     end
 
   end
