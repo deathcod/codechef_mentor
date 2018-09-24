@@ -3,9 +3,9 @@ class MessageBroadcastJob < ApplicationJob
 
   def perform(message)
     ActionCable.server.broadcast 'chat_channel', { 
-	message: message.body, 
-        sender_name: message.user.username,
-        time: message.created_at
+      message: message.body, 
+      sender_name: message.user.username,
+      time: message.created_at
 	}
   end
 

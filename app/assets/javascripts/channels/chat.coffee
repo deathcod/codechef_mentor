@@ -14,7 +14,7 @@ jQuery(document).on 'turbolinks:load', ->
       received: (data) ->
         if data['message']
           $new_message_body.val('')
-          $messages.append data['message']
+          $messages.append("<div class=\"message\"><strong>" + data['sender_name'] + "</strong> says:" + data['message'] + "<br><small>" + data['time'] + "</small><hr></div>")
 
       send_message: (message) ->
          @perform 'send_message', message: message

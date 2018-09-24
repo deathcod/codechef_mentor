@@ -1,9 +1,7 @@
 <h1>Demo Chat</h1>
 
 <div id="messages">
-  <% @messages.each do |message|%>
-    <%= render partial: 'messages/message', locals: {message: message}%>
-  <% end %>
+  <%= render @messages %>
 </div>
 
 <%= form_with url: '#', html: {id: 'new-message'} do |f| %>
