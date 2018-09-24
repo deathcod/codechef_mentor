@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-    protect_from_forgery with: :null_session
+    protect_from_forgery with: :null_session, except: :authenticate
 
     #/users/authenticate POST params: current_user
     def authenticate

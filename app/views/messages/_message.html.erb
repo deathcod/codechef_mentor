@@ -1,7 +1,7 @@
 <div class="message">
-  <strong><%= message.user.username %></strong> says:
-  <%= message.body %>
+  <strong><%= message.user.sender_name %></strong> says:
+  <%= message.message %>
   <br>
-  <small>at <%= l message.created_at, format: :short %></small>
+  <small>at <%= l message.time, format: :short %></small>
   <hr>
 </div>
