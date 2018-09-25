@@ -6,8 +6,7 @@ class UserController < ApplicationController
         if params[:current_user].nil? || params[:current_user].blank?
             render json: {status: StatusCode::FAILURE, reason: "no user provided"} and return
         end
-        cookies.signed[:current_user] = params[:current_user]
-        render json: {status: StatusCode::SUCCESS}
+        render json: {status: StatusCode::SUCCESS, current_user: current_user.username}
     end
 
     def index
