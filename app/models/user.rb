@@ -10,7 +10,8 @@ class User < ApplicationRecord
            @mentors_data << {
               username: User.find(mr.user_id1).username,
               status: mr.status,
-              relationship: "mentor"
+              relationship: "mentor",
+              room_id: mr.id
            }
         end
         return @mentors_data
@@ -23,7 +24,8 @@ class User < ApplicationRecord
             @students_data << {
                 username: User.find(sr.user_id2).username,
                 status: sr.status,
-                relationship: "student"
+                relationship: "student",
+                room_id: sr.id
             }
         end
         return @students_data

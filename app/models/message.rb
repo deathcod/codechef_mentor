@@ -1,5 +1,6 @@
 class Message < ApplicationRecord
   belongs_to :user
+  belongs_to :room, class_name: 'Relationship', primary_key: 'id'
 
   validates :body, presence: true
 

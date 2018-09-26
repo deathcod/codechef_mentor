@@ -2,7 +2,7 @@ class MessageBroadcastJob < ApplicationJob
   queue_as :default
 
   def perform(message)
-    ActionCable.server.broadcast 'chat_channel', message.to_hash
+    ActionCable.server.broadcast "room-#{message.room_id}:messages", message.to_hash
   end
 
   private

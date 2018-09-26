@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'users', to: 'user#users'
 
   get 'chats', to: 'chat#index'
+  get 'chats/:id', to: 'chat#show'
+  
   post 'users/authenticate', to: 'user#authenticate'
   root 'user#index'
 end
