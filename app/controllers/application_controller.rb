@@ -16,11 +16,14 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if cookies.signed[:current_user]
+      Rails.logger.info("ApplicationController::Cookies")
       @current_user ||= User.find_by_username(cookies.signed[:current_user])
     elsif params[:current_user]
+      Rails.logger.info("ApplicationController::params[:current_user]=#{params[:current_user]}")
       @current_user ||= User.find_or_create_by(username: params[:current_user])
       cookies.signed[:current_user] ||= params[:current_user]
     elsif params[:id]
+      Rails.logger.info("ApplicationController::params[:id]=#{params[:id]}")
       @current_user ||= User.find_or_create_by(username: params[:id])
       cookies.signed[:current_user] ||= params[:current_user]
     end

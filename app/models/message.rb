@@ -9,7 +9,7 @@ class Message < ApplicationRecord
     {
       message: self.body, 
       sender_name: self.user.username,
-      time: self.created_at
+      time: self.created_at.to_datetime.new_offset('+530').strftime("%H:%M")
     }
   end
 

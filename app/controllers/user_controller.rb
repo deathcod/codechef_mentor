@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-    protect_from_forgery with: :null_session, except: :authenticate
+    skip_before_action :verify_authenticity_token
 
     #/users/authenticate POST params: current_user
     def authenticate
@@ -57,11 +57,8 @@ class UserController < ApplicationController
     # users
     # params: mentor_name, current_user
     def create
-        
         if params[:mentor_name].nil?
             render json: {status: StatusCode::FAILURE, reason: "mentor_name is nil"} and return
-        elsif params[:current_user].nil?
-            render json: {status: StatusCode::FAILURE, reason: "current_user is nil"} and return
         end
 
         create_relationship = Relationship.new(user_id1: mentor.id, user_id2: current_user.id, status: "pending")
