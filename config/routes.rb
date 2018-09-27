@@ -12,5 +12,10 @@ Rails.application.routes.draw do
   
   post 'users/authenticate', to: 'user#authenticate'
   put 'users/upload_profile_pic', to: 'user#upload_profile_pic'
+  post 'rails/active_storage/direct_uploads', to: 'fileupload#create'
+  put 'rails/active_storage/disk/:encoded_token', to: 'fileupload#update'
+  get 'rails/active_storage/disk/:encoded_key/*filename', to: 'fileupload#show'
+
   root 'user#index'
+
 end
