@@ -3,13 +3,14 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
 
   resources :user
-  get 'mentors',  to: 'user#mentors'
-  get 'students', to: 'user#students'
-  get 'users', to: 'user#users'
+  get 'mentors',  to: 'relationship#mentors'
+  get 'students', to: 'relationship#students'
+  get 'users', to: 'relationship#users'
 
   get 'chats', to: 'chat#index'
   get 'chats/:id', to: 'chat#show'
   
   post 'users/authenticate', to: 'user#authenticate'
+  put 'users/upload_profile_pic', to: 'user#upload_profile_pic'
   root 'user#index'
 end

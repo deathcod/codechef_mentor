@@ -2,7 +2,8 @@ class User < ApplicationRecord
     has_many :mentor_relation, class_name: 'Relationship', foreign_key: 'user_id2'
     has_many :student_relation, class_name: 'Relationship', foreign_key: 'user_id1'
     has_many :messages, dependent: :destroy
-    
+    has_one_attached :avatar
+
     def mentors
 	return @mentors_data if @mentors_data
         @mentors_data ||= []

@@ -5,6 +5,7 @@ Insert your username and start chatting
   <div class="field">
     <%= label_tag :current_user %>
     <%= text_field_tag :current_user %>
+    <%= file_field_tag :avatar, multiple: true, direct_upload: true, class: 'form-control' %>
   </div>
 
   <div class="actions">
