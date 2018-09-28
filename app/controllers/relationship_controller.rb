@@ -77,6 +77,21 @@ class RelationshipController < ApplicationController
      end
   end
 
+  #/leaderboard
+  #/leaderboard?num=10 #testing
+  def leaderboard
+    num = 3
+    num = params[:num] if params[:num]
+    data = User.limit(num).all.map do |u|
+      {
+        current_user: u.username,
+        score: Random.new.rand(100)
+      }
+    end 
+    
+    render json: data.sort_by{|a| a[:score]} and return
+  end
+
   private
 
   def usernames
