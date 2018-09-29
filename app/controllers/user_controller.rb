@@ -1,35 +1,26 @@
 class UserController < ApplicationController
 
+    IMAGES_PATH = File.join(Rails.root, "storage", "profile_pics")
     #/users/authenticate POST params: current_user
     def authenticate
         if params[:current_user].nil? || params[:current_user].blank?
             render json: {status: StatusCode::FAILURE, reason: "no user provided"} and return
         end
-        render json: {status: StatusCode::SUCCESS, current_user: current_user.username, profile_pic_url: profile_pic_url} and return
+        render json: {status: StatusCode::SUCCESS, current_user: current_user.username} and return
     end
 
     def index
     end
     
-    #/upload_profile_pic PUT avatar
+    #/upload_profile_pic
     def upload_profile_pic
-        if params[:avatar].nil? || params[:avatar].blank?
-            render json: {status: StatusCode::FAILURE, reason: "no profile pic provided"} and return
-        end
-        current_user.avatar.attach(params[:avatar])
-        current_user.save
-        if current_user.valid? 
-            render json: {status: StatusCode::SUCCESS, profile_pic_url: profile_pic_url} and return
+        File.open(File.join(IMAGES_PATH, "#{current_user.id}.jpg"), "wb") do |f|
+            f.write params[:data].read
         end
     end
 
-    private
-
-    def profile_pic_url
-        if current_user.avatar.attached?
-            return url_for(current_user.avatar)
-        else
-            return ""
-        end
+    #/dpwnload profile pic
+    def download_profile_pic
+        send_file(File.join(IMAGES_PATH, "#{current_user.id}.jpg"))
     end
 end

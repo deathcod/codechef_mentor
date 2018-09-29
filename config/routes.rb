@@ -11,12 +11,13 @@ Rails.application.routes.draw do
   get 'chats/:id', to: 'chat#show'
   
   post 'users/authenticate', to: 'user#authenticate'
-  put 'users/upload_profile_pic', to: 'user#upload_profile_pic'
+  post 'users/upload_profile_pic', to: 'user#upload_profile_pic'
+  get  'users/download_profile_pic', to: 'user#download_profile_pic'
+  
   post 'rails/active_storage/direct_uploads', to: 'fileupload#create'
   put 'rails/active_storage/disk/:encoded_token', to: 'filedisk#update'
   get 'rails/active_storage/disk/:encoded_key/*filename', to: 'filedisk#show'
 
   get 'leaderboard', to: 'relationship#leaderboard'
   root 'user#index'
-
 end
