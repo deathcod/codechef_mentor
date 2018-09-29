@@ -23,4 +23,8 @@ class UserController < ApplicationController
     def download_profile_pic
         send_file(File.join(IMAGES_PATH, "#{current_user.id}.jpg"))
     end
+
+    def auth_provider
+        return render params
+    end
 end

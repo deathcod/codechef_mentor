@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'chats/:id', to: 'chat#show'
   
   post 'users/authenticate', to: 'user#authenticate'
+  post 'users/auth/:provider', to: 'user#auth_provider'
+  
   post 'users/upload_profile_pic', to: 'user#upload_profile_pic'
   get  'users/download_profile_pic', to: 'user#download_profile_pic'
   
