@@ -2,10 +2,12 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   mount ActionCable.server => '/cable'
 
-  resources :user
   get 'mentors',  to: 'relationship#mentors'
   get 'students', to: 'relationship#students'
   get 'users', to: 'relationship#users'
+  post 'user', to: 'relationship#create'
+  put 'user/:current_user', to: 'relationship#update'
+  get 'leaderboard', to: 'relationship#leaderboard'
 
   get 'chats', to: 'chat#index'
   get 'chats/:id', to: 'chat#show'
@@ -22,6 +24,5 @@ Rails.application.routes.draw do
   put 'rails/active_storage/disk/:encoded_token', to: 'filedisk#update'
   get 'rails/active_storage/disk/:encoded_key/*filename', to: 'filedisk#show'
 
-  get 'leaderboard', to: 'relationship#leaderboard'
   root 'user#index'
 end
