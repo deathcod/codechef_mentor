@@ -1,5 +1,5 @@
 class UserController < ApplicationController
-    before_action :authenticate_request!, :except => [:authenticate]
+    before_action :authenticate_request!, :except => [:authenticate, :auth_provider]
 
     IMAGES_PATH = File.join(Rails.root, "storage", "profile_pics")
     PENDING_AUTH_CODE = "pending_auth_code".freeze
@@ -11,12 +11,13 @@ class UserController < ApplicationController
             render json: {status: StatusCode::FAILURE, reason: "no user provided"} and return
         end
         
-        if params[:auth_code].nil?
-            render json: {status: StatusCode::FAILURE, reason: "Auth Code not provided"} and return
+	Rails.logger.info("UserController::authenticate::auth_code::#{request.headers["Auth-Code"]}")
+        if request.headers["Auth-Code"].nil?
+            render json: {status: StatusCode::FAILURE, reason: "Auth Code not provided"}, status: :unauthorized and return
         end
 
         REDIS_POOL.with do |conn| 
-            if conn.sismember(PENDING_AUTH_CODE, params[:auth_code]) == 1
+            if conn.sismember(PENDING_AUTH_CODE, request.headers[:auth_code]) == 1
                 conn.srem(PENDING_AUTH_CODE, params[:auth_code])
                 conn.hset(APPROVED_AUTH_CODE, params[:current_user], params[:auth_code])
             else

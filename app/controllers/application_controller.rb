@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_request!
-    if request.headers["auth_code"].nil?
+    Rails.logger.info("ApplicationController::authenticate_request!::auth_code::#{request.headers["Auth-Code"]}")
+    if request.headers["Auth-Code"].nil?
       render json: { status: StatusCode::FAILURE, reason: 'Auth code not found' }, status: :unauthorized and return
     elsif cookies.signed[:current_user].nil?
       render json: { status: StatusCode::FAILURE, reason: 'current user not found' }, status: :unauthorized and return
