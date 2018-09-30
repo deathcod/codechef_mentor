@@ -14,7 +14,6 @@ class ApplicationController < ActionController::Base
   protected
 
   def authenticate_request!
-    
     user_name = cookies.signed[:current_user]
     auth_code = request.headers["Auth-Code"]
 

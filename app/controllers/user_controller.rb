@@ -25,7 +25,7 @@ class UserController < ApplicationController
         end
 
         Rails.logger.info("ApplicationController::authenticate::success#{params[:current_user]}")
-        cookies.signed[:current_user] = User.find_or_create_by(username: params[:current_user])
+        cookies.signed[:current_user] = User.find_or_create_by(username: params[:current_user]).username
         render json: {status: StatusCode::SUCCESS, current_user: params[:current_user]} and return
     end
 
