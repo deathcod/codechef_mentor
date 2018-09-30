@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'users/auth/codechef', to: 'user#auth_provider'
   post 'users/auth/codechef', to: 'user#auth_provider'
   put 'users/auth/codechef', to: 'user#auth_provider'
+  get 'users/logout', to: 'user#logout'  
   
   post 'users/upload_profile_pic', to: 'user#upload_profile_pic'
   get  'users/download_profile_pic', to: 'user#download_profile_pic'

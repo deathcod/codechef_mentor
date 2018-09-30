@@ -32,14 +32,14 @@ class UserController < ApplicationController
     def index
     end
     
-    #/upload_profile_pic
+    #/users/upload_profile_pic
     def upload_profile_pic
         File.open(File.join(IMAGES_PATH, "#{current_user.id}.jpg"), "wb") do |f|
             f.write params[:data].read
         end
     end
 
-    #/download profile pic
+    #/users/download profile pic
     def download_profile_pic
         send_file(File.join(IMAGES_PATH, "#{current_user.id}.jpg"))
     end
@@ -47,5 +47,14 @@ class UserController < ApplicationController
     def auth_provider
         REDIS_POOL.with {|conn| conn.sadd(PENDING_AUTH_CODE, params[:code])}
         redirect_to "mentor://callback?code=#{params[:code]}&state=#{params[:state]}"
+    end
+
+    #/users/logout
+    def logout
+        if REDIS_POOL.with {|conn| conn.hdel(APPROVED_AUTH_CODE, current_user.username)} && (cookies.delete :current_user)
+           render json: {status: StatusCode::SUCCESS} and return
+        else
+           render json: {status: StatusCode::FAILURE, reason: "Could not logout"} and return
+        end
     end
 end
