@@ -1,4 +1,5 @@
 class RelationshipController < ApplicationController
+  before_action :authenticate_request!
   #/mentors?usernames=AAA|BBB|CCC
   #/mentors?current_user=USERNAME  [TODO: deprecate]
   def mentors

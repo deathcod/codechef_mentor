@@ -1,5 +1,5 @@
 class ChatController < ApplicationController
-
+  before_action :authenticate_request!
   def index
     @messages = Message.order(created_at: :asc)
   end
