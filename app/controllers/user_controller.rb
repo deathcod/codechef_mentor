@@ -2,8 +2,6 @@ class UserController < ApplicationController
     before_action :authenticate_request!, :except => [:authenticate, :auth_provider]
 
     IMAGES_PATH = File.join(Rails.root, "storage", "profile_pics")
-    PENDING_AUTH_CODE = "pending_auth_code".freeze
-    APPROVED_AUTH_CODE = "approved_auth_code".freeze
 
     #/users/authenticate POST params: current_user
     def authenticate
@@ -18,7 +16,7 @@ class UserController < ApplicationController
         end
 
         REDIS_POOL.with do |conn| 
-            if conn.sismember(PENDING_AUTH_CODE, auth_code) == 1
+            if conn.sismember(PENDING_AUTH_CODE, auth_code) == true
                 conn.srem(PENDING_AUTH_CODE, auth_code)
                 conn.hset(APPROVED_AUTH_CODE, params[:current_user], auth_code)
             else
