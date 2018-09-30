@@ -10,7 +10,7 @@ class UserController < ApplicationController
         end
         
         auth_code = request.headers["Auth-Code"]
-	    Rails.logger.info("UserController::authenticate::auth_code::#{auth_code}")
+	 Rails.logger.info("UserController::authenticate::auth_code::#{auth_code}")
         if auth_code.nil?
             render json: {status: StatusCode::FAILURE, reason: "Auth Code not provided"}, status: :unauthorized and return
         end
