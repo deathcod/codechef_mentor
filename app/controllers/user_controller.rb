@@ -52,7 +52,8 @@ class UserController < ApplicationController
     #/users/logout
     def logout
         if REDIS_POOL.with {|conn| conn.hdel(APPROVED_AUTH_CODE, current_user.username)} && (cookies.delete :current_user)
-           render json: {status: StatusCode::SUCCESS} and return
+           Rails.logger.info("UserController::logout::success::#{current_user.username}")
+           render json: {status: StatusCode::SUCCESS, reason: "successfully logged out"} and return
         else
            render json: {status: StatusCode::FAILURE, reason: "Could not logout"} and return
         end
