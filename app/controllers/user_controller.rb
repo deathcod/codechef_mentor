@@ -11,17 +11,18 @@ class UserController < ApplicationController
             render json: {status: StatusCode::FAILURE, reason: "no user provided"} and return
         end
         
-	Rails.logger.info("UserController::authenticate::auth_code::#{request.headers["Auth-Code"]}")
-        if request.headers["Auth-Code"].nil?
+        auth_code = request.headers["Auth-Code"]
+	    Rails.logger.info("UserController::authenticate::auth_code::#{auth_code}")
+        if auth_code.nil?
             render json: {status: StatusCode::FAILURE, reason: "Auth Code not provided"}, status: :unauthorized and return
         end
 
         REDIS_POOL.with do |conn| 
-            if conn.sismember(PENDING_AUTH_CODE, request.headers[:auth_code]) == 1
-                conn.srem(PENDING_AUTH_CODE, params[:auth_code])
-                conn.hset(APPROVED_AUTH_CODE, params[:current_user], params[:auth_code])
+            if conn.sismember(PENDING_AUTH_CODE, auth_code) == 1
+                conn.srem(PENDING_AUTH_CODE, auth_code)
+                conn.hset(APPROVED_AUTH_CODE, params[:current_user], auth_code)
             else
-                render status: :unauthorized and return
+                render json: {status: StatusCode::FAILURE, reason: "Auth Code not valid"}, status: :unauthorized and return
             end
         end
 
