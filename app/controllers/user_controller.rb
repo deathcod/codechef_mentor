@@ -25,6 +25,6 @@ class UserController < ApplicationController
     end
 
     def auth_provider
-        return render params
+        redirect_to "mentor://callback?code=#{params[:code]}&state=#{params[:state]}"
     end
 end
