@@ -37,3 +37,20 @@ POST /user                           # create relationship between current user 
 POST /users/upload_profile_pic       # save user's profile pic
 PUT  /user/:current_user             # update relationship status
 ```
+
+## TODO
+The following features we will work in future
+* create push notifications
+* allow users to create their own chat channels
+* allow users to **record chat** and use it as notes
+* create tag based search for questions and mentors
+
+## Contribution
+We would love to see contributions to our codebase. To start contributing follow the steps.
+* fork the git repository
+* clone the forked reposition
+* make changes and add feature
+* raise a pull request to merge with master
+
+## Contact 
+Reach out to me at chinmay.rakshit@gmail.com for any queries. Also report issues, we will look into it and fix
