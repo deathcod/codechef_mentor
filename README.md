@@ -16,10 +16,10 @@ For setting up the server, follow the following steps
 * to start server in production mode `bundle exec rails s production`
 
 ## Authentication Architecture
-![authentication image](https://raw.github.com/deathcod/codechef_mentor/blob/master/config/authentication.png)
+![authentication image](https://github.com/deathcod/codechef_mentor/blob/master/config/authentication.png)
 
 ## Backend Architecture
-![bcakend image](https://raw.github.com/deathcod/codechef_mentor/blob/master/config/backend_architecture.png)
+![bcakend image](https://github.com/deathcod/codechef_mentor/blob/master/config/backend_architecture.png)
 
 ## API end-points
 ```
