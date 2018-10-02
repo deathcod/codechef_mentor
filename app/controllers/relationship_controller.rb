@@ -86,11 +86,11 @@ class RelationshipController < ApplicationController
     data = User.limit(num).all.map do |u|
       {
         current_user: u.username,
-        score: Random.new.rand(100)
+        score: u.student_relation.where(status: "approved").reduce(0) {|a, b| a + b.messages.where(user_id: b.user_id1).count}
       }
     end 
     
-    render json: data.sort_by{|a| a[:score]} and return
+    render json: data.sort_by{|a| -a[:score]} and return
   end
 
   private

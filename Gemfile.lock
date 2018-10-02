@@ -72,6 +72,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.2)
     crass (1.0.4)
     erubi (1.7.1)
     eventmachine (1.2.7)
@@ -206,6 +207,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
+  connection_pool (~> 2.2, >= 2.2.1)
   faye-websocket (~> 0.10.0)
   jbuilder (~> 2.5)
   jquery-rails
