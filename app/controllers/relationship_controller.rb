@@ -69,7 +69,7 @@ class RelationshipController < ApplicationController
           render json: {status: StatusCode::FAILURE, reason: "status is nil"} and return
      end
 
-     relationship = Relationship.where(user_id1: current_user.id, user_id2: student.id).first
+     relationship = Relationship.not_rejected.where(user_id1: current_user.id, user_id2: student.id).first
      if relationship.present?
          relationship.update_attributes!(status: params[:status])
          render json: {status: StatusCode::SUCCESS} and return
@@ -86,7 +86,7 @@ class RelationshipController < ApplicationController
     data = User.limit(num).all.map do |u|
       {
         current_user: u.username,
-        score: u.student_relation.where(status: "approved").reduce(0) {|a, b| a + b.messages.where(user_id: b.user_id1).count}
+        score: u.student_relation.where(status: "approved").reduce(0) {|a, b| a + b.messages.where(user_id: b.user_id1).count + 1}
       }
     end 
     
